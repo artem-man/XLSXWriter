@@ -1,0 +1,17 @@
+{
+    "name": "artem-man/XLSXWriter",
+    "description": "PHP Library to write XLSX files",
+    "keywords": ["php", "library","xls", "xlsx", "excel"],
+    "type": "project",
+    "homepage": "https://github.com/artem-man/XLSXWriter",
+    "license": "GPL-3.0",
+    "autoload": {
+	    "classmap": ["lib/"],
+        "psr-4": { "XLSXWriter\\": "src/"}
+    },
+    "require": {
+        "php": ">=5.6.36",
+        "ext-zip": "*",
+        "ext-xmlwriter": "*"
+    }
+}
