@@ -45,7 +45,7 @@ class ArrayToObjectsUIndex
 		});
 
 */
-	public function lookup(array &$data, $func_create_object)
+	public function lookup(array $data, $func_create_object)
 	{
 		if (empty($this->allowedKeys)) {
 			$vals = $data;
