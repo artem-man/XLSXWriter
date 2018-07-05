@@ -7,7 +7,7 @@ namespace XLSXWriter\XLSXStyle;
 
 class XLSXCellStyle implements IXLSXStyle
 {
-	const ALLOWED_STYLE_KEYS = array('num_fmt_id','fill_id','font_id','border_id','halign','valign','wrap_text');
+	const ALLOWED_STYLE_KEYS = array('num_fmt_id','fill_id','font_id','border_id','halign','valign','word-wrap', 'default');
 	const ALLOWED_HORISONTAL_STYLE = array('general','left','right','justify','center');
 	const ALLOWED_VERTICAL_STYLE = array('bottom','center','distributed','top');
 
@@ -46,10 +46,10 @@ class XLSXCellStyle implements IXLSXStyle
 			$this->applyAlignment = true;
 			$this->vAlignment = $style['valign'];
 		}
-		if (isset($style['wrap_text']))
+		if (isset($style['word-wrap']))
 		{
 			$this->applyAlignment = true;
-			$this->wrap_text = (bool)$style['wrap_text'];
+			$this->wrapText = (bool)$style['word-wrap'];
 		}
 
 	}
