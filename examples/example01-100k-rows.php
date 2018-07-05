@@ -1,10 +1,9 @@
 <?php
 use XLSXWriter\XLSX;
 
-include_once("../vendor/autoload.php");
+include_once '../vendor/autoload.php';
 
-
-$chars = "abcdefghijklmnopqrstuvwxyz0123456789 ";
+$chars = 'abcdefghijklmnopqrstuvwxyz0123456789 ';
 $s = '';
 for($j=0; $j<16192;$j++)
 	$s.= $chars[rand()%36];
@@ -25,6 +24,5 @@ for($i=0; $i<100000; $i++)
 	$s4 = substr($s, rand()%16000, rand()%5+5);
     $sheet->writeRow(array($n1, $n2, $n3, $n4, $s1, $s2, $s3, $s4), array([],['number_format' => '$#,##0.00'],[],['number_format' => '#0.00%'],['font'=>'Arial','font-size'=>10,'font-style'=>'bold', 'fill'=>'#eee', 'halign'=>'center', 'border'=>'left,right,top,bottom'],[],[],[]) );
 }
-$xlsx->writeToFile('xlsx-100k-rows.xlsx');
+$xlsx->writeToFile(str_replace('.php', '.xlsx',$_SERVER['argv'][0]));
 echo '#'.floor((memory_get_peak_usage())/1024/1024)."MB"."\n";
-
