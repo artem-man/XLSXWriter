@@ -7,7 +7,7 @@ namespace XLSXWriter\XLSXStyle;
 
 class XLSXCellStyle implements IXLSXStyle
 {
-	const ALLOWED_STYLE_KEYS = array('num_fmt_id','fill_id','font_id','border_id','halign','valign','wrap_text','default');
+	const ALLOWED_STYLE_KEYS = array('num_fmt_id','fill_id','font_id','border_id','halign','valign','wrap_text');
 	const ALLOWED_HORISONTAL_STYLE = array('general','left','right','justify','center');
 	const ALLOWED_VERTICAL_STYLE = array('bottom','center','distributed','top');
 

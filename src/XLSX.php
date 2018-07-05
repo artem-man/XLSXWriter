@@ -61,14 +61,14 @@ class XLSX
 		$this->description=$description;
 	}
 
-	public function createSheet($sheet_name, $col_widths=array(), $auto_filter=false, $freeze_rows=false, $freeze_columns=false )
+	public function createSheet($sheet_name, $col_widths=array(), $freeze_rows=false, $freeze_columns=false )
 	{
 		//if already initialized
 		if (isset($this->sheets[$sheet_name])) {
 			return $this->sheets[$sheet_name];
 		}
 
-		$this->sheets[$sheet_name] = new XLSXSheet($this, $col_widths, $auto_filter, $freeze_rows, $freeze_columns);
+		$this->sheets[$sheet_name] = new XLSXSheet($this, $col_widths, $freeze_rows, $freeze_columns);
 
 		return $this->sheets[$sheet_name];
 	}

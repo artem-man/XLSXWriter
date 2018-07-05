@@ -104,7 +104,8 @@ class XLSXStyle
 			$style_indexes['border_id'] = $id;
 		}
 
-		$id = $this->styleIdx->lookup(($style + $style_indexes),
+		$style_indexes += $style;
+		$id = $this->styleIdx->lookup(($style_indexes),
 			function($filtered_data) {
 				return new XLSXCellStyle($filtered_data);
 			}

@@ -82,7 +82,12 @@ class XLSXSheet
 		$i=0;
 		if (!empty($col_widths)) {
 			foreach($col_widths as $column_width) {
-				$this->write(  '<col collapsed="false" hidden="false" max="'.($i+1).'" min="'.($i+1).'" style="0" customWidth="true" width="'.floatval($column_width).'"/>');
+				if (isset($column_width)) {
+					$this->write(  '<col collapsed="false" hidden="false" max="'.($i+1).'" min="'.($i+1).'" style="0" customWidth="true" width="'.floatval($column_width).'"/>');
+				}
+				else {
+					$this->write(  '<col collapsed="false" hidden="false" max="'.($i+1).'" min="'.($i+1).'" style="0" customWidth="false" width="11.5"/>');
+				}
 				$i++;
 			}
 		}
@@ -121,25 +126,24 @@ class XLSXSheet
 
 		$col = 0;
 		foreach ($row_data as $k => $v) {
-			if (is_null($v)) {
-				continue;
-			}
-			if ($custom_cell_style) {
-				if (isset($style[$k])) {
-					$cell_style = $style[$k];
-				}
-				elseif (isset($style[$col])) {
-					$cell_style = $style[$col];
+			if (isset($v)) {
+				if ($custom_cell_style) {
+					if (isset($style[$k])) {
+						$cell_style = $style[$k];
+					}
+					elseif (isset($style[$col])) {
+						$cell_style = $style[$col];
+					}
+					else {
+						$cell_style = null;
+					}
 				}
 				else {
-					$cell_style = null;
+					$cell_style = $style;
 				}
-			}
-			else {
-				$cell_style = $style;
-			}
 
-			$this->writeCell($col+$startColumn, $row, $v, $cell_style);
+				$this->writeCell($col+$startColumn, $row, $v, $cell_style);
+			}
 			$col++;
 		}
 		$this->write('</row>');
