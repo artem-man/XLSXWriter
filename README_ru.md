@@ -69,29 +69,33 @@ $sheet->writeRow($row_data, $styles);
 ## Стили
 Стили задаются ассоциативным массивом.
 На данный момент доступны следующие стили:
-1. Числовой формат
-	'number_format' - числовой формат в формате Excel, например '#0.00%' -  проценты.
+1.	 Числовой формат
+	- 'number_format' - числовой формат в формате Excel, например '#0.00%' -  проценты.
+
 2. Шрифты
-	'font' - семейство шрифта
-	'font-size' - высота шрифта
-	'font-style' - стиль шрифта, можно указать следующие возможные значения через пробел или запятую: bold, italic, strike, underline
-	'color' - цвет, например #fff, #fe88fe
+	* 'font' - семейство шрифта
+	* 'font-size' - высота шрифта
+	* 'font-style' - стиль шрифта, можно указать следующие возможные значения через пробел или запятую: bold, italic, strike, underline
+	* 'color' - цвет, например #fff, #fe88fe
+
 3. Заливка
-	'fill' - цвет, например #fff, #fe88fe
+	- 'fill' - цвет, например #fff, #fe88fe
+
 4. Выравнивание
-	'halign' - по горизонтали, возможное значение: general, left, right, justify, center
-	'valign' - по вертикали, возможные значение: bottom, center, distributed, top
-	'wrap_text' - включает автоперенос текста
+	* 'halign' - по горизонтали, возможное значение: general, left, right, justify, center
+	* 'valign' - по вертикали, возможные значение: bottom, center, distributed, top
+	* 'wrap_text' - включает автоперенос текста
+
 5. Границы ячейки
-	'border-color' - цвет, например #fff, #fe88fe
-	'border-style' - стиль границы, возможное значение: 'none', 'dashDot', 'dashDotDot', 'dashed', 'dotted', 'double','hair','medium','mediumDashDot','mediumDashDotDot','mediumDashed','slantDashDot','thick','thin'
-	'border' - указывает стороны к которым будут примененны значение 'border-color' и 'border-style'. Возможные значения через запятую или пробел: left, right, top, bottom.
+	* 'border-color' - цвет, например #fff, #fe88fe
+	* 'border-style' - стиль границы, возможное значение: 'none', 'dashDot', 'dashDotDot', 'dashed', 'dotted', 'double','hair','medium','mediumDashDot','mediumDashDotDot','mediumDashed','slantDashDot','thick','thin'
+	* 'border' - указывает стороны к которым будут примененны значение 'border-color' и 'border-style'. Возможные значения через запятую или пробел: left, right, top, bottom.
 
 	Общие значения можно перезаписать для конкртетной стороны границы используя следующие стили:
-    'border-top-color', 'border-top-style',
-    'border-right-color', 'border-right-style',
-    'border-bottom-color', 'border-bottom-style',
-    'border-left-color', 'border-left-style'
+    * 'border-top-color', 'border-top-style',
+    * 'border-right-color', 'border-right-style',
+    * 'border-bottom-color', 'border-bottom-style',
+    * 'border-left-color', 'border-left-style'
 
 <a name="conditional_formatting"></a>
 ## Условное форматирование
