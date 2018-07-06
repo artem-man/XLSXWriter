@@ -1,4 +1,8 @@
 <?php
+/*
+ * @Artem Myrhorodskyi
+ * */
+
 namespace XLSXWriter;
 
 use XLSXWriter\XLSXStyle\XLSXCellStyle;
@@ -7,10 +11,6 @@ use XLSXWriter\XLSXStyle\XLSXFont;
 use XLSXWriter\XLSXStyle\XLSXFill;
 use XLSXWriter\XLSXStyle\XLSXBorder;
 use XLSXWriter\XLSXStyle\XLSXConditionalStyle;
-
-/*
- * @Artem Myrhorodskyi
- * */
 
 class XLSXStyle
 {
@@ -41,7 +41,7 @@ class XLSXStyle
 	//	$defaultStyle += array('fill' => '#EEECE1', 'color' => '#776F45');
 		$this->defaultStyle = $defaultStyle;
 
-		$this->styleIdx =  new \ArrayToObjectsUIndex(XLSXCellStyle::ALLOWED_STYLE_KEYS);
+		$this->styleIdx = new \ArrayToObjectsUIndex(XLSXCellStyle::ALLOWED_STYLE_KEYS);
 		$this->numberFormatsIdx = new \ArrayToObjectsUIndex(XLSXNumberFormat::ALLOWED_STYLE_KEYS, 164);
 		$this->fontsIdx = new \ArrayToObjectsUIndex(XLSXFont::ALLOWED_STYLE_KEYS, 4);
 		$this->bordersIdx = new \ArrayToObjectsUIndex(XLSXBorder::ALLOWED_STYLE_KEYS, 1);

@@ -1,12 +1,13 @@
 <?php
+/*
+ * @Artem Myrhorodskyi
+ * */
+
 namespace XLSXWriter;
 
 const EXCEL_2007_MAX_COL=16384;
 const EXCEL_2007_MAX_ROW=1048576;
 
-/*
- * @Artem Myrhorodskyi
- * */
 class XLSXSheet
 {
 	protected $xlsx;
@@ -59,18 +60,18 @@ class XLSXSheet
 		$this->write(  '<sheetViews>');
 		$this->write(    '<sheetView colorId="64" defaultGridColor="true" rightToLeft="false" showFormulas="false" showGridLines="true" showOutlineSymbols="true" showRowColHeaders="true" showZeros="true" tabSelected="' . $tabselected . '" topLeftCell="A1" view="normal" windowProtection="false" workbookViewId="0" zoomScale="100" zoomScaleNormal="100" zoomScalePageLayoutView="100">');
 		if ($this->freeze_rows && $this->freeze_columns) {
-			$this->write(      '<pane ySplit="'.$this->freeze_rows.'" xSplit="'.$this->freeze_columns.'" topLeftCell="'.XLSX::cell($this->freeze_columns, $this->freeze_rows).'" activePane="bottomRight" state="frozen"/>');
+			$this->write(      '<pane ySplit="'.($this->freeze_rows-1).'" xSplit="'.$this->freeze_columns.'" topLeftCell="'.XLSX::cell($this->freeze_columns, $this->freeze_rows).'" activePane="bottomRight" state="frozen"/>');
 			$this->write(      '<selection activeCell="'.XLSX::cell(0, $this->freeze_rows).'" activeCellId="0" pane="topRight" sqref="'.XLSX::cell(0, $this->freeze_rows).'"/>');
-			$this->write(      '<selection activeCell="'.XLSX::cell($this->freeze_columns, 0).'" activeCellId="0" pane="bottomLeft" sqref="'.XLSX::cell($this->freeze_columns, 0).'"/>');
+			$this->write(      '<selection activeCell="'.XLSX::cell($this->freeze_columns, 1).'" activeCellId="0" pane="bottomLeft" sqref="'.XLSX::cell($this->freeze_columns, 1).'"/>');
 			$this->write(      '<selection activeCell="'.XLSX::cell($this->freeze_columns, $this->freeze_rows).'" activeCellId="0" pane="bottomRight" sqref="'.XLSX::cell($this->freeze_columns, $this->freeze_rows).'"/>');
 		}
 		elseif ($this->freeze_rows) {
-			$this->write(      '<pane ySplit="'.$this->freeze_rows.'" topLeftCell="'.XLSX::cell(0, $this->freeze_rows).'" activePane="bottomLeft" state="frozen"/>');
+			$this->write(      '<pane ySplit="'.($this->freeze_rows-1).'" topLeftCell="'.XLSX::cell(0, $this->freeze_rows).'" activePane="bottomLeft" state="frozen"/>');
 			$this->write(      '<selection activeCell="'.XLSX::cell(0, $this->freeze_rows).'" activeCellId="0" pane="bottomLeft" sqref="'.XLSX::cell(0, $this->freeze_rows).'"/>');
 		}
 		elseif ($this->freeze_columns) {
-			$this->write(      '<pane xSplit="'.$this->freeze_columns.'" topLeftCell="'.XLSX::cell($this->freeze_columns, 0).'" activePane="topRight" state="frozen"/>');
-			$this->write(      '<selection activeCell="'.XLSX::cell($this->freeze_columns, 0).'" activeCellId="0" pane="topRight" sqref="'.XLSX::cell($this->freeze_columns, 0).'"/>');
+			$this->write(      '<pane xSplit="'.$this->freeze_columns.'" topLeftCell="'.XLSX::cell($this->freeze_columns, 1).'" activePane="topRight" state="frozen"/>');
+			$this->write(      '<selection activeCell="'.XLSX::cell($this->freeze_columns, 1).'" activeCellId="0" pane="topRight" sqref="'.XLSX::cell($this->freeze_columns, 1).'"/>');
 		}
 		else { // not frozen
 			$this->write(      '<selection activeCell="A1" activeCellId="0" pane="topLeft" sqref="A1"/>');
@@ -198,9 +199,9 @@ class XLSXSheet
 		}
 	}
 
-	public function markMergedCell($startCell, $endCell)
+	public function markMergedCell($range)
 	{
-		$this->merge_cells[] = $startCell . ":" . $endCell;
+		$this->merge_cells[] = $range;
 		return $this;
 	}
 
