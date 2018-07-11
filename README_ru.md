@@ -20,13 +20,13 @@
 * Вставка картинок
 
 ## Документация
-1. [Создание листов](#create_sheet)
+1. [Создание листов и сохранение документа](#create_sheet)
 1. [Запись строки](#write_row)
 1. [Стили](#styles)
 1. [Условное форматирование](#conditional_formatting)
 
 <a name="create_sheet"></a>
-## Создание Листов
+### Создание Листов
 
 ```php
 /* Создаем документ */
@@ -36,14 +36,17 @@ $xlsx = new XLSX();
 
 $sheet_title - название листа
 $columns_width - ширина колонок
-$freeze_rows и $freeze_columns - можно установить, чтобы закрепить область прокрутки
+$freeze_rows и $freeze_columns - позволяет закрепить область прокрутки
 */
 $sheet1 = $xlsx->createSheet($sheet_title='Sheet1', $columns_width = array(10,20,30,10,20), $freeze_rows=3, $freeze_columns=2);
 $sheet2 = $xlsx->createSheet($sheet_title='Sheet2');
+
+/* Сохраняем документ в файл */
+$xlsx->writeToFile('filename.xlsx');
 ```
 
 <a name="write_row"></a>
-## Запись строки
+### Запись строки
 Библиотека рассчитана на запись целой строки, а не ячейки как в PHPExcel. Одновременно со значениеми ячеек можно указать стили либо для всей строки сразу, либо для каждой ячейки в соответствии с ключем либо порядковым номером.
 
 ```php
@@ -76,7 +79,7 @@ $sheet->writeRow($row_data, $styles);
 ```
 
 <a name="styles"></a>
-## Стили
+### Стили
 Стили задаются ассоциативным массивом.
 На данный момент доступны следующие стили:
 1.	 Числовой формат
@@ -89,17 +92,17 @@ $sheet->writeRow($row_data, $styles);
 	* **color** - цвет, например #fff, #fe88fe
 
 3. Заливка
-	- **fill** - цвет, например #fff, #fe88fe
+	* **fill** - цвет, например #fff, #fe88fe
 
 4. Выравнивание
 	* **align** - выравнивание по горизонтали, возможное значение: *general*, *left*, *right*, *justify*, *center*
-	* **valign** - выравнивание по вертикали, возможные значение: *bottom*, *center*, *distributed*, *top*
+	* **valign** - выравнивание по вертикали, возможное значение: *bottom*, *center*, *distributed*, *top*
 	* **word-wrap** - включает автоперенос текста
 
 5. Границы ячейки
 	* **border-color** - цвет, например #fff, #fe88fe
-	* **border-style** - стиль границы, возможное значение: *none*, *dashDot*, *dashDotDot*, *dashed*, *dotted*, *double*,*hair*,*medium*,*mediumDashDot*,*mediumDashDotDot*,*mediumDashed*,*slantDashDot*,*thick*,*thin*
-	* **border** - указывает стороны к которым будут примененны значение **border-color** и **border-style**. Возможные значения через запятую или пробел: left, right, top, bottom.
+	* **border-style** - стиль границы, возможное значение: *none*, *dashDot*, *dashDotDot*, *dashed*, *dotted*, *double*, *hair*, *medium*, *mediumDashDot*, *mediumDashDotDot*, *mediumDashed*, *slantDashDot*, *thick*, *thin*
+	* **border** - указывает стороны к которым будут примененны значение **border-color** и **border-style**. Возможные значения через запятую или пробел: *left*, *right*, *top*, *bottom*.
 
 	Общие значения можно перезаписать для конкртетной стороны границы используя следующие стили:
     * **border-top-color**, **border-top-style**,
@@ -108,7 +111,7 @@ $sheet->writeRow($row_data, $styles);
     * **border-left-color**, **border-left-style**
 
 <a name="conditional_formatting"></a>
-## Условное форматирование
+### Условное форматирование
 На данный момент реализовано только условное форматирование по формуле. Внимание, не следует создавать условное форматирование для каждой строки! Используйте диапазоны и абсолютные/относительные значения в формуле.
 
 ```php
