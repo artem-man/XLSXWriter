@@ -29,7 +29,7 @@ $sheet->setConditionalStyle('E1:H1001','$A1<=0',array('color' => '#f00'));
 $sheet->setConditionalStyle('E1:H1001','$A1>=1000',array('fill' => '#0f0'));
 $sheet->setConditionalStyle('E1:H1001','AND($A1>0, $A1<1000)',array('fill' => '#00f'));
 $sheet->setConditionalStyle('A1:D1001','$B1>1000',array('fill' => '#ee6440'));
-$sheet->setConditionalStyle('C1:C1001','$C1*10<5',array('border'=>'top,bottom'));
+$sheet->setConditionalStyle('C1:C1001','$C1*10<5',array('border'=>'top,bottom', 'align' => 'center'));
 
 
 $xlsx->writeToFile(str_replace('.php', '.xlsx',$_SERVER['argv'][0]));
