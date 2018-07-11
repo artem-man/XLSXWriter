@@ -1,9 +1,10 @@
 <?php
-namespace XLSXWriter;
-
 /*
  * @Artem Myrhorodskyi
  * */
+
+namespace XLSXWriter;
+
 class XLSX
 {
 	//http://www.ecma-international.org/publications/standards/Ecma-376.htm
@@ -18,52 +19,19 @@ class XLSX
 	protected $description;
 	protected $keywords = array();
 
-	private $sheets = array();
-	private $xlsxstyle = null;
+	protected $sheets = array();
+	protected $xlsxstyle = null;
 
-	public function __construct()
+	public function __construct($defaultStyle = array())
 	{
-		if(!ini_get('date.timezone'))
-		{
-			//using date functions can kick out warning if this isn't set
-			date_default_timezone_set('UTC');
+		$this->xlsxstyle = new XLSXStyle($defaultStyle);
+	}
+
+	public function createSheet($sheet_name = '', $col_widths=array(), $freeze_rows=false, $freeze_columns=false )
+	{
+		if (empty($sheetname)) {
+			$sheet_name = 'Sheet'. (count($this->sheets)+1);
 		}
-		$this->xlsxstyle = new XLSXStyle();
-	}
-
-	public function setTitle($title='')
-	{
-		$this->title=$title;
-	}
-
-	public function setSubject($subject='')
-	{
-		$this->subject=$subject;
-	}
-
-	public function setAuthor($author='')
-	{
-		$this->author=$author;
-	}
-
-	public function setCompany($company='')
-	{
-		$this->company=$company;
-	}
-
-	public function setKeywords($keywords='')
-	{
-		$this->keywords=$keywords;
-	}
-
-	public function setDescription($description='')
-	{
-		$this->description=$description;
-	}
-
-	public function createSheet($sheet_name, $col_widths=array(), $freeze_rows=false, $freeze_columns=false )
-	{
-		//if already initialized
 		if (isset($this->sheets[$sheet_name])) {
 			return $this->sheets[$sheet_name];
 		}
@@ -248,6 +216,37 @@ class XLSX
 	{
 		return 'sheet' . ($i+1) .".xml";
 	}
+
+	public function setTitle($title='')
+	{
+		$this->title=$title;
+	}
+
+	public function setSubject($subject='')
+	{
+		$this->subject=$subject;
+	}
+
+	public function setAuthor($author='')
+	{
+		$this->author=$author;
+	}
+
+	public function setCompany($company='')
+	{
+		$this->company=$company;
+	}
+
+	public function setKeywords($keywords='')
+	{
+		$this->keywords=$keywords;
+	}
+
+	public function setDescription($description='')
+	{
+		$this->description=$description;
+	}
+
 
 	//------------------------------------------------------------------
 	/*
