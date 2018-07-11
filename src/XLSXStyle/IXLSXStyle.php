@@ -1,9 +1,9 @@
 <?php
-namespace XLSXWriter\XLSXStyle;
-
 /*
  * @Artem Myrhorodskyi
  * */
+
+namespace XLSXWriter\XLSXStyle;
 
 interface IXLSXStyle
 {

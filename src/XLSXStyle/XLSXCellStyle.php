@@ -1,25 +1,26 @@
 <?php
-namespace XLSXWriter\XLSXStyle;
-
 /*
  * @Artem Myrhorodskyi
  * */
 
+namespace XLSXWriter\XLSXStyle;
+
+
 class XLSXCellStyle implements IXLSXStyle
 {
-	const ALLOWED_STYLE_KEYS = array('num_fmt_id','fill_id','font_id','border_id','align','valign','word-wrap', 'default');
-	const ALLOWED_HORISONTAL_STYLE = array('general','left','right','justify','center');
-	const ALLOWED_VERTICAL_STYLE = array('bottom','center','distributed','top');
-
-	protected $applyAlignment = false;
-	protected $hAlignment = 'general';
-	protected $vAlignment = 'bottom';
-	protected $wrapText = false;
+	const ALLOWED_STYLE_KEYS = array
+	                           (
+	                               'num_fmt_id','fill_id','font_id','border_id',
+	                               'align','valign','word-wrap', /* XLSXAlignment  */
+	                               'default' /* special val for default style */
+	                           );
 
 	protected $numFmtId = 0;
 	protected $fontId = 0;
 	protected $fillId = 0;
 	protected $borderId = 0;
+
+	protected $alignment;
 
 	public function __construct(array &$style)
 	{
@@ -36,22 +37,10 @@ class XLSXCellStyle implements IXLSXStyle
 			$this->borderId = $style['border_id'];
 		}
 
-		if (isset($style['align']) && in_array($style['align'], self::ALLOWED_HORISONTAL_STYLE))
-		{
-			$this->applyAlignment = true;
-			$this->hAlignment = $style['align'];
+		$filtered_style = array_intersect_key($style, array_flip(XLSXAlignment::ALLOWED_STYLE_KEYS));
+		if (!empty($filtered_style)) {
+			$this->alignment = new XLSXAlignment($style);
 		}
-		if (isset($style['valign']) && in_array($style['valign'], self::ALLOWED_VERTICAL_STYLE))
-		{
-			$this->applyAlignment = true;
-			$this->vAlignment = $style['valign'];
-		}
-		if (isset($style['word-wrap']))
-		{
-			$this->applyAlignment = true;
-			$this->wrapText = (bool)$style['word-wrap'];
-		}
-
 	}
 
 	public function toXML($id=0)
@@ -76,16 +65,9 @@ class XLSXCellStyle implements IXLSXStyle
 			$xml->writeAttribute('applyBorder', 1);
 		}
 		$xml->writeAttribute('xfId', 0);
-		if ($this->applyAlignment) {
+		if (isset($this->alignment)) {
 			$xml->writeAttribute('applyAlignment', 1);
-			$xml->startElement('alignment');
-			$xml->writeAttribute('horizontal', $this->hAlignment);
-			$xml->writeAttribute('vertical', $this->vAlignment);
-			$xml->writeAttribute('textRotation', 0);
-			$xml->writeAttribute('wrapText', $this->wrapText ? 'true': 'false');
-			$xml->writeAttribute('indent', 0);
-			$xml->writeAttribute('shrinkToFit', 'false');
-			$xml->endElement();
+			$xml->writeRaw($this->alignment->toXML());
 		}
 
 		$xml->endElement();

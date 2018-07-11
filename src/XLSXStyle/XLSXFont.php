@@ -1,9 +1,9 @@
 <?php
-namespace XLSXWriter\XLSXStyle;
-
 /*
  * @Artem Myrhorodskyi
  * */
+
+namespace XLSXWriter\XLSXStyle;
 
 class XLSXFont implements IXLSXStyle
 {
@@ -19,7 +19,6 @@ class XLSXFont implements IXLSXStyle
 	const ALLOWED_STYLE_KEYS = array('font', 'font-size', 'font-style', 'color');
 	public function __construct(array &$style)
 	{
-//		static $allowed_keys = array('font', 'font-size', 'font-style', 'color');
 		if (isset($style['font-size']))	{
 			$this->size = floatval($style['font-size']);
 		}
