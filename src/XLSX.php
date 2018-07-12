@@ -29,7 +29,7 @@ class XLSX
 
 	public function createSheet($sheet_name = '', $col_widths=array(), $freeze_rows=false, $freeze_columns=false )
 	{
-		if (empty($sheetname)) {
+		if (empty($sheet_name)) {
 			$sheet_name = 'Sheet'. (count($this->sheets)+1);
 		}
 		if (isset($this->sheets[$sheet_name])) {
