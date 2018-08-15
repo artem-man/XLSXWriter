@@ -38,7 +38,6 @@ class XLSXStyle
 
 	public function __construct($defaultStyle = array())
 	{
-	//	$defaultStyle += array('fill' => '#EEECE1', 'color' => '#776F45');
 		$this->defaultStyle = $defaultStyle;
 
 		$this->styleIdx = new \ArrayToObjectsUIndex(XLSXCellStyle::ALLOWED_STYLE_KEYS);

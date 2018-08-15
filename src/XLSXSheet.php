@@ -205,11 +205,12 @@ class XLSXSheet
 		return $this;
 	}
 
-	public function setConditionalStyle($range, $formula, array $style)
+	public function setConditionalStyle($range, $formula, array $style, $condition_type = XLSX::CONDITION_EXPRESSION)
 	{
 		$dxfid = $this->xlsx->setConditionalStyle($style);
 		$this->conditionalFormatting[] = array
 		(
+			'condition_type' => $condition_type,
 			'range' => $range,
 			'formula' => $formula,
 			'dxfid' => $dxfid
@@ -239,7 +240,7 @@ class XLSXSheet
 				$this->write(PHP_EOL);
 				$this->write('<conditionalFormatting sqref="' . XLSX::xmlspecialchars($rule['range']) . '">');
 				$this->write(PHP_EOL);
-				$this->write('<cfRule type="expression" priority="'.($i+1).'" aboveAverage="0" equalAverage="0" bottom="0" percent="0" rank="0" text="" dxfId="'.$rule['dxfid'].'">');
+				$this->write('<cfRule type="' . $rule['condition_type'] . '" priority="'.($i+1).'" aboveAverage="0" equalAverage="0" bottom="0" percent="0" rank="0" text="" dxfId="'.$rule['dxfid'].'">');
 				$this->write(PHP_EOL);
 				$this->write('<formula>'.XLSX::xmlspecialchars($rule['formula']).'</formula>');
 				$this->write(PHP_EOL);

@@ -7,6 +7,11 @@ namespace XLSXWriter;
 
 class XLSX
 {
+    const CONDITION_CELLIS       = 'cellIs';
+    const CONDITION_CONTAINSTEXT = 'containsText';
+    const CONDITION_EXPRESSION   = 'expression';
+
+
 	//http://www.ecma-international.org/publications/standards/Ecma-376.htm
 	//http://officeopenxml.com/SSstyles.php
 	//------------------------------------------------------------------

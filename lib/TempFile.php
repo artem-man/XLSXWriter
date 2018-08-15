@@ -71,7 +71,6 @@ class TempFile
  * usefull for configuration with strict types check
  *
  * @author  Artem Myrhorodskyi
- * @license MIT
  */
 
 class TempFileCreator
