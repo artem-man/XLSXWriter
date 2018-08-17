@@ -18,7 +18,7 @@ class XLSXNumberFormat implements IXLSXStyle
 		}
 	}
 
-	function toXML($id)
+	public function toXML($id)
 	{
 		$xml = '<numFmt numFmtId="'. $id .'" formatCode="'.\XLSXWriter\XLSX::xmlspecialchars($this->number_format).'" />';
 		return $xml;
@@ -26,16 +26,33 @@ class XLSXNumberFormat implements IXLSXStyle
 
 	public static function numberFormatStandardized($num_format)
 	{
-		if ($num_format=='money') { $num_format='dollar'; }
-		if ($num_format=='number') { $num_format='integer'; }
+		switch ($num_format) {
+		case 'string':
+			$num_format = '@';
+			break;
+		case 'price':
+		case 'currency':
+			$num_format = '#,##0.00';
+			break;
+		case 'money':
+		case 'dollar':
+			$num_format = '[$$-1009]#,##0.00;[RED]-[$$-1009]#,##0.00';
+			break;
+		case 'euro':
+			$num_format = '#,##0.00 [$€-407];[RED]-#,##0.00 [$€-407]';
+			break;
+		case 'integer':
+		case 'number':
+			$num_format='0';
+			break;
+		case 'date':
+			$num_format='YYYY-MM-DD';
+			break;
+		case 'datetime':
+			$num_format='YYYY-MM-DD HH:MM:SS';
+			break;
+		}
 
-		if      ($num_format=='string')   $num_format='@';
-		else if ($num_format=='integer')  $num_format='0';
-		else if ($num_format=='date')     $num_format='YYYY-MM-DD';
-		else if ($num_format=='datetime') $num_format='YYYY-MM-DD HH:MM:SS';
-		else if ($num_format=='price')    $num_format='#,##0.00';
-		else if ($num_format=='dollar')   $num_format='[$$-1009]#,##0.00;[RED]-[$$-1009]#,##0.00';
-		else if ($num_format=='euro')     $num_format='#,##0.00 [$€-407];[RED]-#,##0.00 [$€-407]';
 		$ignore_until='';
 		$escaped = '';
 		for($i=0,$ix=strlen($num_format); $i<$ix; $i++)
