@@ -97,27 +97,38 @@ class XLSXSheet
 		$this->write(  '<sheetData>');
 	}
 
-	public function writeRow(array $row_data, array $style = null, $startColumn = 0, $row = 0, array $row_options = null)
+	public function nextRow($row)
 	{
-		$this->column_count = max($this->column_count, count($row_data) + $startColumn);
-
 		if (!$row) {
-			$row = $this->row_count+1;
+			$this->row_count++;
+			return $this->row_count;
 		}
-		if ($this->row_count >= $row) {
+
+		$row--;
+		if ($this->row_count > $row) {
 			throw new Exception('Current row less then previous');
 		}
 		$this->row_count = $row;
+		return $this->row_count;
+	}
+
+	public function writeRow(array $row_data = array(), array $style = null, $startColumn = 0, $row = 0, array $row_options = null)
+	{
+		$this->column_count = max($this->column_count, count($row_data) + $startColumn);
+		$this->nextRow($row);
 
 		if (!empty($row_options)) {
 			$ht = isset($row_options['height']) ? floatval($row_options['height']) : 12.1;
 			$customHt = isset($row_options['height']) ? true : false;
 			$hidden = isset($row_options['hidden']) ? (bool)($row_options['hidden']) : false;
 			$collapsed = isset($row_options['collapsed']) ? (bool)($row_options['collapsed']) : false;
-			$this->write('<row collapsed="'.($collapsed).'" customFormat="false" customHeight="'.($customHt).'" hidden="'.($hidden).'" ht="'.($ht).'" outlineLevel="0" r="' . $row . '">');
+			$this->write('<row collapsed="'.($collapsed).'" customFormat="false" customHeight="'.($customHt).'" hidden="'.($hidden).'" ht="'.($ht).'" outlineLevel="0" r="' . $this->row_count . '">');
 		}
 		else {
-			$this->write('<row collapsed="false" customFormat="false" customHeight="false" hidden="" ht="12.1" outlineLevel="0" r="' . $row . '">');
+			if (empty($row_data) && empty($style)) {
+				return $this;
+			}
+			$this->write('<row collapsed="false" customFormat="false" customHeight="false" hidden="" ht="12.1" outlineLevel="0" r="' . $this->row_count . '">');
 		}
 
 		$custom_cell_style = false;
@@ -143,7 +154,7 @@ class XLSXSheet
 					$cell_style = $style;
 				}
 
-				$this->writeCell($col+$startColumn, $row, $v, $cell_style);
+				$this->writeCell($col+$startColumn, $this->row_count, $v, $cell_style);
 			}
 			$col++;
 		}
