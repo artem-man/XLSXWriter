@@ -161,7 +161,7 @@ class XLSXSheet
 		if (isset($style) && !empty($style)) {
 			$number_format = 'GENERAL';
 			if (isset($style['number_format'])) {
-				$number_format = XLSX::numberFormatStandardized($style['number_format']);
+				$number_format = XLSXStyle\XLSXNumberFormat::numberFormatStandardized($style['number_format']);
 				$number_format_type = XLSX::determineNumberFormatType($number_format);
 			}
 			$cell_style_idx = $this->xlsx->addCellStyle($style);
