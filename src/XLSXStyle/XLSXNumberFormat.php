@@ -31,7 +31,6 @@ class XLSXNumberFormat implements IXLSXStyle
 			$num_format = '@';
 			break;
 		case 'price':
-		case 'currency':
 			$num_format = '#,##0.00';
 			break;
 		case 'money':
