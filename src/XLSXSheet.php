@@ -97,7 +97,7 @@ class XLSXSheet
 		$this->write(  '<sheetData>');
 	}
 
-	public function nextRow($row)
+	public function nextRow($row = 0)
 	{
 		if (!$row) {
 			$this->row_count++;
@@ -173,7 +173,7 @@ class XLSXSheet
 			$number_format = 'GENERAL';
 			if (isset($style['number_format'])) {
 				$number_format = XLSXStyle\XLSXNumberFormat::numberFormatStandardized($style['number_format']);
-				$number_format_type = XLSX::determineNumberFormatType($number_format);
+				$number_format_type = XLSXStyle\XLSXNumberFormat::determineNumberFormatType($number_format);
 			}
 			$cell_style_idx = $this->xlsx->addCellStyle($style);
 		}
@@ -188,10 +188,10 @@ class XLSXSheet
 		default:
 			switch($number_format_type) {
 			case 'n_date':
-				$this->write('<c r="'.$cell_name.'" s="'.$cell_style_idx.'" t="n"><v>'.intval(XLSX::convert_date_time($value)).'</v></c>');
+				$this->write('<c r="'.$cell_name.'" s="'.$cell_style_idx.'" t="n"><v>'.intval(XLSXStyle\XLSXNumberFormat::convert_date_time($value)).'</v></c>');
 				break;
 			case 'n_datetime':
-				$this->write('<c r="'.$cell_name.'" s="'.$cell_style_idx.'" t="n"><v>'.XLSX::convert_date_time($value).'</v></c>');
+				$this->write('<c r="'.$cell_name.'" s="'.$cell_style_idx.'" t="n"><v>'.XLSXStyle\XLSXNumberFormat::convert_date_time($value).'</v></c>');
 				break;
 			case 'n_numeric':
 				$this->write('<c r="'.$cell_name.'" s="'.$cell_style_idx.'" t="n"><v>'.XLSX::xmlspecialchars($value).'</v></c>');//int,float,currency
