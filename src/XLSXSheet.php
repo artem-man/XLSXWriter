@@ -32,7 +32,7 @@ class XLSXSheet
 	static protected $activeSheet = null;
 
 
-	public function __construct(XLSX $xlsx, $col_widths=array(), $freeze_rows=false, $freeze_columns=false)
+	public function __construct(XLSX $xlsx, $col_widths=array(), $freeze_rows=false, $freeze_columns=false, $scale=100)
 	{
 		$this->xlsx = $xlsx;
 
@@ -58,7 +58,7 @@ class XLSXSheet
 		$this->write('<dimension ref="A1:' . $max_cell . '"/>');
 		$this->max_cell_tag_end = $this->file_writer->ftell();
 		$this->write(  '<sheetViews>');
-		$this->write(    '<sheetView colorId="64" defaultGridColor="true" rightToLeft="false" showFormulas="false" showGridLines="true" showOutlineSymbols="true" showRowColHeaders="true" showZeros="true" tabSelected="' . $tabselected . '" topLeftCell="A1" view="normal" windowProtection="false" workbookViewId="0" zoomScale="100" zoomScaleNormal="100" zoomScalePageLayoutView="100">');
+		$this->write(    '<sheetView colorId="64" defaultGridColor="true" rightToLeft="false" showFormulas="false" showGridLines="true" showOutlineSymbols="true" showRowColHeaders="true" showZeros="true" tabSelected="' . $tabselected . '" topLeftCell="A1" view="normal" windowProtection="false" workbookViewId="0" zoomScale="' . $scale . '" zoomScaleNormal="100" zoomScalePageLayoutView="100">');
 		if ($this->freeze_rows && $this->freeze_columns) {
 			$this->write(      '<pane ySplit="'.($this->freeze_rows-1).'" xSplit="'.$this->freeze_columns.'" topLeftCell="'.XLSX::cell($this->freeze_columns, $this->freeze_rows).'" activePane="bottomRight" state="frozen"/>');
 			$this->write(      '<selection activeCell="'.XLSX::cell(0, $this->freeze_rows).'" activeCellId="0" pane="topRight" sqref="'.XLSX::cell(0, $this->freeze_rows).'"/>');

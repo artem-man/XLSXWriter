@@ -32,7 +32,7 @@ class XLSX
 		$this->xlsxstyle = new XLSXStyle($defaultStyle);
 	}
 
-	public function createSheet($sheet_name = '', $col_widths=array(), $freeze_rows=false, $freeze_columns=false )
+	public function createSheet($sheet_name = '', $col_widths=array(), $freeze_rows=false, $freeze_columns=false, $scale = 100, $add_to_begin=false )
 	{
 		if (empty($sheet_name)) {
 			$sheet_name = 'Sheet'. (count($this->sheets)+1);
@@ -40,8 +40,13 @@ class XLSX
 		if (isset($this->sheets[$sheet_name])) {
 			return $this->sheets[$sheet_name];
 		}
-
-		$this->sheets[$sheet_name] = new XLSXSheet($this, $col_widths, $freeze_rows, $freeze_columns);
+		$sheet = new XLSXSheet($this, $col_widths, $freeze_rows, $freeze_columns, $scale);
+		if ($add_to_begin) {
+			$this->sheets = array($sheet_name => $sheet) + $this->sheets;
+		}
+		else {
+			$this->sheets[$sheet_name] = $sheet;
+		}
 
 		return $this->sheets[$sheet_name];
 	}
