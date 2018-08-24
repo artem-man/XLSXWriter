@@ -113,13 +113,14 @@ class XLSXSheet
 
 	public function writeRow(array $row_data = array(), array $style = null, $startColumn = 0, $row = 0, array $row_options = null)
 	{
-		$this->column_count = max($this->column_count, count($row_data) + $startColumn);
+ 		$this->column_count = max($this->column_count, count($row_data) + $startColumn);
 		if (!empty($row_options)) {
 			$ht = isset($row_options['height']) ? floatval($row_options['height']) : 12.1;
-			$customHt = isset($row_options['height']) ? true : false;
-			$hidden = isset($row_options['hidden']) ? (bool)($row_options['hidden']) : false;
-			$collapsed = isset($row_options['collapsed']) ? (bool)($row_options['collapsed']) : false;
-			$this->write('<row collapsed="'.($collapsed).'" customFormat="false" customHeight="'.($customHt).'" hidden="'.($hidden).'" ht="'.($ht).'" outlineLevel="0" r="' . $this->current_row . '">');
+			$customHt = isset($row_options['height']) ? 1 : 0;
+			$outlineLevel = isset($row_options['outlineLevel']) ? (int)$row_options['outlineLevel'] : 0;
+			$hidden = (isset($row_options['hidden']) && $row_options['hidden']) ? 1 : 0;
+			$collapsed = (isset($row_options['collapsed']) && $row_options['collapsed']) ? 1 : 0;
+			$this->write('<row collapsed="'.($collapsed).'" customFormat="false" customHeight="'.($customHt).'" hidden="'.($hidden).'" ht="'.($ht).'" outlineLevel="'.$outlineLevel.'" r="' . $this->current_row . '">');
 		}
 		else {
 			if (empty($row_data) && empty($style)) {
