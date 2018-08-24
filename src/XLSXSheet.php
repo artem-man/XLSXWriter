@@ -113,6 +113,9 @@ class XLSXSheet
 
 	public function writeRow(array $row_data = array(), array $style = null, $startColumn = 0, $row = 0, array $row_options = null)
 	{
+		if ($row) {
+			$this->nextRow($row);
+		}
  		$this->column_count = max($this->column_count, count($row_data) + $startColumn);
 		if (!empty($row_options)) {
 			$ht = isset($row_options['height']) ? floatval($row_options['height']) : 12.1;
@@ -124,6 +127,7 @@ class XLSXSheet
 		}
 		else {
 			if (empty($row_data) && empty($style)) {
+				$this->nextRow();
 				return $this;
 			}
 			$this->write('<row collapsed="false" customFormat="false" customHeight="false" hidden="" ht="12.1" outlineLevel="0" r="' . $this->current_row . '">');
@@ -157,7 +161,7 @@ class XLSXSheet
 			$col++;
 		}
 		$this->write('</row>');
-		$this->nextRow($row);
+		$this->nextRow();
 		return $this;
 	}
 
