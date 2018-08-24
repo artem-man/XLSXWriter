@@ -16,7 +16,7 @@ class XLSXSheet
 	protected $tmpfile;
 
 	protected $column_count = 0;
-	protected $row_count = 0;
+	protected $current_row = 1;
 
 	protected $merge_cells = array();
 	protected $conditionalFormatting = array();
@@ -100,35 +100,32 @@ class XLSXSheet
 	public function nextRow($row = 0)
 	{
 		if (!$row) {
-			$this->row_count++;
-			return $this->row_count;
+			$this->current_row++;
+			return $this->current_row;
 		}
 
-		$row--;
-		if ($this->row_count > $row) {
+		if ($this->current_row > $row) {
 			throw new Exception('Current row less then previous');
 		}
-		$this->row_count = $row;
-		return $this->row_count;
+		$this->current_row = $row;
+		return $this->current_row;
 	}
 
 	public function writeRow(array $row_data = array(), array $style = null, $startColumn = 0, $row = 0, array $row_options = null)
 	{
 		$this->column_count = max($this->column_count, count($row_data) + $startColumn);
-		$this->nextRow($row);
-
 		if (!empty($row_options)) {
 			$ht = isset($row_options['height']) ? floatval($row_options['height']) : 12.1;
 			$customHt = isset($row_options['height']) ? true : false;
 			$hidden = isset($row_options['hidden']) ? (bool)($row_options['hidden']) : false;
 			$collapsed = isset($row_options['collapsed']) ? (bool)($row_options['collapsed']) : false;
-			$this->write('<row collapsed="'.($collapsed).'" customFormat="false" customHeight="'.($customHt).'" hidden="'.($hidden).'" ht="'.($ht).'" outlineLevel="0" r="' . $this->row_count . '">');
+			$this->write('<row collapsed="'.($collapsed).'" customFormat="false" customHeight="'.($customHt).'" hidden="'.($hidden).'" ht="'.($ht).'" outlineLevel="0" r="' . $this->current_row . '">');
 		}
 		else {
 			if (empty($row_data) && empty($style)) {
 				return $this;
 			}
-			$this->write('<row collapsed="false" customFormat="false" customHeight="false" hidden="" ht="12.1" outlineLevel="0" r="' . $this->row_count . '">');
+			$this->write('<row collapsed="false" customFormat="false" customHeight="false" hidden="" ht="12.1" outlineLevel="0" r="' . $this->current_row . '">');
 		}
 
 		$custom_cell_style = false;
@@ -154,11 +151,12 @@ class XLSXSheet
 					$cell_style = $style;
 				}
 
-				$this->writeCell($col+$startColumn, $this->row_count, $v, $cell_style);
+				$this->writeCell($col+$startColumn, $this->current_row, $v, $cell_style);
 			}
 			$col++;
 		}
 		$this->write('</row>');
+		$this->nextRow($row);
 		return $this;
 	}
 
@@ -268,7 +266,7 @@ class XLSXSheet
 			$this->write(    '</mergeCells>');
 		}
 
-		$max_cell = XLSX::cell($this->column_count - 1, $this->row_count);
+		$max_cell = XLSX::cell($this->column_count - 1, $this->current_row - 1);
 
 		if ($this->auto_filter) {
 			$this->write(    '<autoFilter ref="A1:' . $max_cell . '"/>');
